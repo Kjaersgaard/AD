@@ -1,167 +1,158 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AD_Aflevering_2 {
+private static CodeJudge3 hej;
+	
+	static ArrayList<CodeJudge3> Persons = new ArrayList<CodeJudge3>();
+	static ArrayList<CodeJudge3> Answer = new ArrayList<CodeJudge3>();
+	int Distance;
+	static int pointer = 0;
+	String color;
+	String name;
+	
+	static int temp = 1;
+	static int Generations;
+	static int Person;
+	static int[] InputInt;
+	static String AlgorithmName;
 
-	static int[][] venskaber = {{1,2},{4,1},{5,1},{1,6},{4,2},{5,2},{2,6},{5,4},{4,6},{5,6},{6,7}};
-	static String[] navne = {"Inky","Pinky", "Blinky", "Clyde", "Luigi", "Mario", "Bowser"};
-	static int[] personer = {1,2,4,5,6};
-	public static int[][] MergeSort(int[][] A, int p, int r){
-		if (p<r){
-			int q = (p+r) / 2;
-			MergeSort(A,p,q);
-			MergeSort(A,q+1,r);
-			Merge(A,p,q,r);
-		}
-		return A;
+	ArrayList<CodeJudge3> Friendslist = new ArrayList<CodeJudge3>();
+	static String[] input;
+	static String[] inputcopy;
+	static int[] inputliste;
+
+	public CodeJudge3(){
+		this.color = "white";
+		this.Distance = Integer.MAX_VALUE;
+		this.name = "";
+
 	}
 	
-	public static int[][] Merge(int[][] a, int p, int q, int r){
-		int n1 = q-p+1;
-		int n2 = r-q;
-		int[][] L = new int[n1+1][2];
-		int[][] R = new int[n2+1][2];
-		for (int i = 0; i < n1; i++) {
-			L[i] = a[p+i];
-		}
-		for (int j = 0; j < n2; j++) {
-			R[j] = a[q+j+1];
-		}
-		L[n1][0] = Integer.MAX_VALUE;
-		R[n2][0] = Integer.MAX_VALUE;
-		int i = 0;
-		int j = 0;
-		for (int k = p; k < r+1; k++){
-			if (L[i][0]<=R[j][0]){
-				a[k][0] = L[i][0];
-				i++;
-			}
-			else{
-				a[k][0] = R[j][0];
-				j++;
-			}
-		}
-		return a;
+	public void setName(String name){
+		this.name = name;
 	}
 	
-	public static boolean MyOwn(int[] Friendslist, ArrayList<Integer[]> Result){
-		int count = 0;
-		ArrayList<Integer[]> Answer = new ArrayList<Integer[]>();
-		for (int i = 0; i < Friendslist.length-1; i++) {
-			for (int j = i+1; j < Friendslist.length; j++) {
-				Integer[] point = {Friendslist[i],Friendslist[j]};
-				Answer.add(point);
-			}
-		}
-		for (int i = 0; i < Answer.size(); i++) {
-			System.out.println("{" + Answer.get(i)[0] + ", " + Answer.get(i)[1] + "}");
-			int[] temp1 = {Answer.get(i)[0],Answer.get(i)[1]};
-			for (int j = 0; j < Result.size(); j++) {
-				int[] temp2 = {Result.get(j)[0],Result.get(j)[1]};
-				int[] temp3 = {Result.get(j)[1],Result.get(j)[0]};
-				if (Arrays.equals(temp1, temp2) || Arrays.equals(temp1, temp3)) {
-					count++;
-				}
-			}
-		}
-		if (count == Answer.size()) {
-			return true;
-		}
-		return false;
+	public String getName(){
+		return name;
 	}
 
-	public static int BinarySearch(int key, int[][] a) {
-		int lo = 0;
-		int hi = a.length - 1;
-		while (lo <= hi) {
-			// Key is in a[lo..hi] or not present.
-			int mid = lo + (hi - lo) / 2;
-			if      (key < a[mid][0]) hi = mid - 1;
-			else if (key > a[mid][0]) lo = mid + 1;
-			else return mid;
-		}
-		return -1;
+	public int getDistance(){
+		return this.Distance;
+	}
+
+	public void addDistance(){
+		this.Distance++;
+	}
+
+	public void setColor(String color){
+		this.color = color;
+	}
+
+	public String getColor(){
+		return this.color;
+	}
+
+	public void addFriend(CodeJudge3 Friend){
+		Friendslist.add(Friend);
 	}
 	
-	public static void SortAfterShit(int[][] venskaber){
-		
-		for (int i = 0; i < venskaber.length; i++) {
-			if(venskaber[i][0]>venskaber[i][1]){
-				int temp1 = venskaber[i][0];
-				int temp2 = venskaber[i][1];
-				venskaber[i][0] = temp2;
-				venskaber[i][1] = temp1;
+	public ArrayList<CodeJudge3> getFriendsList(){
+		return Friendslist;
+	}
+
+	public CodeJudge3 getFriend(int i){
+		return Friendslist.get(i);
+	}
+
+	public int size(){
+		return Friendslist.size();
+	}
+	
+	public static String løsning() throws IOException{
+		//BufferedReader br = new BufferedReader(new FileReader("ADInputOpg3.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+			String[] Navneliste = line.split(" ");
+			for (int i = 0; i < Navneliste.length; i++) {
+				Persons.add(new CodeJudge3());
+				Persons.get(i).setName(Navneliste[i]);
 			}
+			while (true) {
+				try {
+					sb.append(line);
+					sb.append(System.lineSeparator());
+					line = br.readLine();
+					if(line == null){
+						break;
+					}
+					Persons.get(Integer.parseInt(line.split(" ")[0])).addFriend(Persons.get(Integer.parseInt(line.split(" ")[1])));
+					Persons.get(Integer.parseInt(line.split(" ")[1])).addFriend(Persons.get(Integer.parseInt(line.split(" ")[0])));
+				} catch (Exception e) {
+					// TODO: handle exception
+					String[] inputString = line.split(" ");
+					AlgorithmName = inputString[0];
+					String[] inputStringcopy = Arrays.copyOfRange(inputString, 1, inputString.length);
+					InputInt = new int[inputStringcopy.length];
+					for (int i = 0; i < InputInt.length; i++) {
+						InputInt[i] = Integer.parseInt(inputStringcopy[i]);
+					}
+					break;
+				}  
+			}
+
+			//			Navneliste - Liste af navnene
+			//			InputInt - liste af tal (Hvis der er nogen)
+			//			AlgorithmName - det første ord i sidste linje
+			Person = InputInt[0];
+			Generations = InputInt[1];
+			
+			//Jeg smider personen selv ind i svaret
+			Answer.add(Persons.get(Person));
+			Answer.get(0).setColor("black");
+			
+			
+			for (int i = 0; i < Generations; i++) {
+				int size = Answer.size();
+				for (int j = 0 ; j < size; j++) {
+					for (CodeJudge3 friend : Answer.get(j).getFriendsList()) {
+						if(friend.getColor()=="white"){
+							Answer.add(friend);
+							friend.setColor("black");
+							pointer++;
+//							if(pointer==Answer.size()-1){
+//								pointer--;
+//							}
+						}
+					}				
+				}
+			}
+			String svar = Answer.get(0).getName();
+			for (int i = 1; i < Answer.size(); i++) {
+				svar = svar + " " + Answer.get(i).getName();
+			}
+			return svar;
+			
+
+			
+		} finally {
+			br.close();
 		}
+		
 	}
 	
-	public static boolean FuckingLort(int[][] Venskaber, int[] Personer){
-		Arrays.sort(Personer);
-		SortAfterShit(Venskaber);
-		MergeSort(Venskaber, 0, Venskaber.length-1);
-		ArrayList<Integer[]> Result = new ArrayList<Integer[]>();
-		
-		for (int i = 0; i < Personer.length-1; i++) {
-			innerloop:
-				for (int j = i+1; j < Personer.length; j++) {
-					int[] temp1 = {Personer[i],Personer[j]};
-					int p = BinarySearch(temp1[0], Venskaber);
-					int copy = p;
-					
-					if(p == -1){
-						return false;
-					}
-					
-					while(Venskaber[p][0]==temp1[0]){
-						int[] temp2 = Venskaber[p];
-						System.out.println("nu går vi tilbage:");
-						System.out.println("dette er temp1: " + temp1[0] + " " + temp1[1]);
-						System.out.println("dette er temp2: " + temp2[0] + " " + temp2[1] );
-						System.out.println("dette er x[p][0]: " + Venskaber[p][0]);
-						System.out.println("dette er p: " + p);
-						
-						System.out.println(" ");
-						if (Arrays.equals(temp1, temp2)){
-							System.out.println("Match!");
-							System.out.println(" ");
-							Integer[] point1 = {temp1[0],temp1[1]};
-							Result.add(point1);
-							p--;
-							continue innerloop;
-						}
-						p--;
-						if(p<0){
-							break;
-						}
-					}
-					p = copy+1;
-					while(Venskaber[p][0]==temp1[0]){
-						int[] temp2 = Venskaber[p];
-						System.out.println("nu går vi fremad:");
-						System.out.println("dette er temp1: " + temp1[0] + " " + temp1[1]);
-						System.out.println("dette er temp2: " + temp2[0] + " " + temp2[1] );
-						System.out.println("dette er x[p][0]: " + Venskaber[p][0]);
-						System.out.println("dette er p: " + p);
-						System.out.println(" ");
-						if (Arrays.equals(temp1, temp2)){
-							System.out.println("Match!");
-							System.out.println(" ");
-							Integer[] point1 = {temp1[0],temp1[1]};
-							Result.add(point1);
-							p++;
-							break;
-						}
-						p++;
-						if(p>Venskaber.length){
-							System.out.println("andet break");
-							break;
-						}
-					}
-				}
-		}
-		return MyOwn(Personer,Result);
+	
+
+	public static void main(String[] args) throws IOException {
+		System.out.println(løsning());
+
 	}
-	public static void main(String[] args) {		
-		System.out.println(FuckingLort(venskaber, personer));
-	}
+
 }

@@ -3,28 +3,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class AD_Aflevering_1 {
+public class CodeJudge1 {
 	
 	static public String AD_Opgave_1(String STDIN) throws IOException{
 		
-		BufferedReader br = new BufferedReader(new FileReader(STDIN + ".txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		 ArrayList<int[]> xrr = new ArrayList<int[]>();
 		    
 		        StringBuilder sb = new StringBuilder();
 		        String line = br.readLine();
-		        System.out.println("Dette er navneliste");
 		        String[] ListofNames = line.split(" ");
 		        
-		        for (int i = 0; i < ListofNames.length; i++) {
-		        	System.out.println(ListofNames[i]);
-				}
 		        
-		        
-		        while (line != null) {
+		        while (true) {
 		        	
 		        	try {
 						
@@ -41,17 +37,7 @@ public class AD_Aflevering_1 {
 
 					} catch (Exception e) {
 						// TODO: handle exception
-						String[] yr = line.split(" ");
-						System.out.println("Dette er den sidste linje");
-						for (int i = 0; i < yr.length; i++) {
-							System.out.println(yr[i]);
-						}
-						
-						System.out.println("Dette er venskaberne");
-						for (int i = 0; i < xrr.size(); i++) {
-							System.out.println(xrr.get(0)[0] + " " + xrr.get(1)[1]);
-						}
-						
+						break;
 					}
 		        	
 		            
